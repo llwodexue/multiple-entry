@@ -3,16 +3,16 @@ process.argv[2] === 'inspect' && console.log('const obj =')
 
 const pages = {
   admin: {
-    title: '检票',
+    title: 'admin管理系统',
     entry: 'src/pages/admin/main.js',
     template: 'index.html',
     filename: isProduction ? 'index.html' : 'admin/index.html'
   },
-  mobile: {
-    title: '验票',
-    entry: 'src/pages/mobile/main.js',
+  other: {
+    title: 'other管理系统',
+    entry: 'src/pages/other/main.js',
     template: 'index.html',
-    filename: isProduction ? 'index.html' : 'mobile/index.html'
+    filename: isProduction ? 'index.html' : 'other/index.html'
   }
 }
 

@@ -75,7 +75,7 @@ module.exports = {
         SwitchCase: 1
       }
     ],
-    'jsx-quotes': [2, 'prefer-single'],
+    'jsx-quotes': 'off',
     'key-spacing': [
       2,
       {
@@ -252,13 +252,7 @@ module.exports = {
     yoda: [2, 'never'],
     'prefer-const': 2,
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    'object-curly-spacing': [
-      2,
-      'always',
-      {
-        objectsInObjects: false
-      }
-    ],
+    'object-curly-spacing': 'off',
     'array-bracket-spacing': [2, 'never'],
     'vue/html-self-closing': 0
   }

@@ -43,10 +43,17 @@ module.exports = defineConfig({
       }
     },
     proxy: {
-      '^/dev-api': {
-        target: 'http://10.5.12.144:8444',
+      '^/admin': {
+        target: 'http://127.0.0.1:3005/admin',
         pathRewrite: {
-          '^/dev-api': ''
+          '^/admin': ''
+        },
+        changeOrigin: true
+      },
+      '^/other': {
+        target: 'http://127.0.0.1:3005/other',
+        pathRewrite: {
+          '^/other': ''
         },
         changeOrigin: true
       }
@@ -58,7 +65,7 @@ module.exports = defineConfig({
       alias: {
         '@': resolve('src'),
         '@admin': resolve('src/pages/admin'),
-        '@mobile': resolve('src/pages/mobile')
+        '@other': resolve('src/pages/other')
       },
       fallback: {
         path: require.resolve('path-browserify')
@@ -66,8 +73,8 @@ module.exports = defineConfig({
     },
     performance: {
       hints: 'warning',
-      maxEntrypointSize: 4 * 1000 * 1000,
-      maxAssetSize: 4 * 1000 * 1000
+      maxEntrypointSize: 20 * 1000 * 1000,
+      maxAssetSize: 20 * 1000 * 1000
     }
   },
   chainWebpack(config) {
@@ -117,11 +124,6 @@ module.exports = defineConfig({
             name: 'chunk-elementUI',
             priority: 20,
             test: /[\\/]node_modules[\\/]_?element-ui(.*)/
-          },
-          vant: {
-            name: 'chunk-vant',
-            priority: 20,
-            test: /[\\/]node_modules[\\/]_?vant(.*)/
           },
           commons: {
             name: 'chunk-commons',

@@ -1,26 +1,77 @@
-import router from './router'
-import store from './store'
+import router from '@admin/router'
+import store from '@admin/store'
+import modal from '@/plugins/modal'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-import getPageTitle from '@admin/utils/get-page-title'
+import { getToken } from '@admin/utils/auth'
+import defaultSettings from '@admin/settings'
+
+const isDeBugger = process.env.NODE_ENV === 'development' && defaultSettings.isDeBugger
 
 NProgress.configure({ showSpinner: false })
 
-let isFirstAccess = true
+const whiteList = ['/login']
 
-// eslint-disable-next-line space-before-function-paren
-router.beforeEach(async (to, from, next) => {
+router.beforeEach((to, from, next) => {
   NProgress.start()
-
-  document.title = getPageTitle(to.meta.title)
-
-  if (isFirstAccess) {
-    isFirstAccess = false
-    const accessRoutes = await store.dispatch('permission/generateRoutes', { roles: [] })
-    router.addRoutes(accessRoutes)
-    next({ ...to, replace: true })
+  if (getToken()) {
+    to.meta.title && store.dispatch('settings/setTitle', to.meta.title)
+    /* 有 token*/
+    if (to.path === '/login') {
+      next({ path: '/' })
+      NProgress.done()
+    } else {
+      if (store.getters.roles.length === 0) {
+        // 判断当前用户是否已拉取完 user_info 信息
+        store
+          .dispatch('GetInfo')
+          .then(userInfo => {
+            store.dispatch('GenerateRoutes', userInfo.roles).then(accessRoutes => {
+              router.addRoutes(accessRoutes) // 动态添加可访问路由表
+              next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+            })
+          })
+          .catch(err => {
+            store.dispatch('LogOut').then(() => {
+              modal.msgError(err)
+              next({ path: '/' })
+            })
+          })
+      } else {
+        next()
+      }
+    }
   } else {
-    next()
+    // 没有token
+    if (whiteList.indexOf(to.path) !== -1) {
+      // 在免登录白名单，直接进入
+      next()
+    } else {
+      if (isDeBugger) {
+        if (store.getters.roles.length === 0) {
+          // 判断当前用户是否已拉取完 user_info 信息
+          store
+            .dispatch('GetInfo')
+            .then(userInfo => {
+              store.dispatch('GenerateRoutes', userInfo.roles).then(accessRoutes => {
+                router.addRoutes(accessRoutes) // 动态添加可访问路由表
+                next({ ...to, replace: true }) // hack方法 确保addRoutes已完成
+              })
+            })
+            .catch(err => {
+              store.dispatch('LogOut').then(() => {
+                modal.msgError(err)
+                next({ path: '/' })
+              })
+            })
+        } else {
+          next()
+        }
+      } else {
+        next(`/login`)
+      }
+      NProgress.done()
+    }
   }
 })
 
