@@ -1,0 +1,42 @@
+.custom-search {
+  background-color: #fff;
+  margin-bottom: 20px;
+  padding: 16px 16px 0;
+
+  .el-form-item {
+    margin-bottom: 16px;
+  }
+}
+
+.custom-table {
+  background-color: #fff;
+  padding: 16px;
+
+  &-tool {
+    margin-bottom: 10px;
+  }
+
+  &-pagination {
+    margin-top: 10px;
+  }
+
+  .el-table td.el-table__cell {
+    padding: 2px 0;
+  }
+}
+
+.custom-dialog {
+  .el-dialog__body {
+    padding: 10px 20px 0;
+  }
+
+  .el-dialog__footer {
+    padding: 0 20px 10px;
+  }
+
+  .el-dialog {
+    margin-top: 10vh !important;
+  }
+}
+
+.custom-descriptions {}

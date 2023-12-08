@@ -1,0 +1,23 @@
+.DS_Store
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+tests/**/coverage/
+node
+src/main/resources
+target/
+package/
+webpack.inspect.js
+webpack.config.dev.js
+webpack.config.prod.js
+node
+nodes
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln

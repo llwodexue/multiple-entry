@@ -1,0 +1,8 @@
+build/*.js
+src/assets
+src/pages/*/assets
+src/pages/*/index.html
+public
+dist
+node_modules
+vue.config.js
