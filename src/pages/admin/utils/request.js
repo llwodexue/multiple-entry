@@ -1,7 +1,7 @@
 import axios from 'axios'
 import modal from '@/plugins/modal'
 import { getToken } from '@admin/utils/auth'
-import errorCode from '@/utils/errorCode'
+import errorCode from '@/utils/error-code'
 import { encryptLog } from '@admin/settings'
 import { encryptAES, decryptAES } from '@/utils/aes-base64'
 import router from '@admin/router'
