@@ -11,7 +11,8 @@ export default {
     return {
       title: this.$store.state.settings.dynamicTitle && this.$store.state.settings.title,
       titleTemplate: title => {
-        return title ? `${title} - ${process.env.VUE_APP_BASE_TITLE}` : process.env.VUE_APP_BASE_TITLE
+        const name = process.env.VUE_APP_ADMIN_TITLE
+        return title ? `${title} - ${name}` : name
       }
     }
   }

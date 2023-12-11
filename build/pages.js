@@ -3,13 +3,13 @@ process.argv[2] === 'inspect' && console.log('const obj =')
 
 const pages = {
   admin: {
-    title: 'admin管理系统',
+    title: process.env.VUE_APP_ADMIN_TITLE,
     entry: 'src/pages/admin/main.js',
     template: 'index.html',
     filename: isProduction ? 'index.html' : 'admin/index.html'
   },
   other: {
-    title: 'other管理系统',
+    title: process.env.VUE_APP_OTHER_TITLE,
     entry: 'src/pages/other/main.js',
     template: 'index.html',
     filename: isProduction ? 'index.html' : 'other/index.html'

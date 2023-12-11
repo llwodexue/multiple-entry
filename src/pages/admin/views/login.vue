@@ -4,7 +4,7 @@
       <div class="pic"></div>
       <div class="field">
         <div class="form-cont">
-          <h3 class="title">admin管理系统</h3>
+          <h3 class="title">{{ title }}</h3>
           <div>
             <el-form ref="loginForm" :model="loginForm" :rules="LoginRules" class="login-form">
               <el-form-item prop="username">
@@ -69,7 +69,8 @@ export default {
         password: [{ required: true, trigger: 'blur', message: '密码不能为空' }]
       },
       loading: false,
-      redirect: undefined
+      redirect: undefined,
+      title: process.env.VUE_APP_ADMIN_TITLE
     }
   },
   created() {

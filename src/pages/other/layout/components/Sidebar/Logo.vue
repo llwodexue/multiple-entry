@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      title: 'other管理系统',
+      title: process.env.VUE_APP_OTHER_TITLE,
       logo: logoImg
     }
   },

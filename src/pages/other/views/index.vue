@@ -1,12 +1,17 @@
 <template>
   <div class="app-container">
-    <div class="big-title">欢迎来到other管理系统</div>
+    <div class="big-title">欢迎来到 {{ title }}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Index'
+  name: 'Index',
+  data() {
+    return {
+      title: process.env.VUE_APP_OTHER_TITLE
+    }
+  }
 }
 </script>
 
