@@ -11,7 +11,8 @@
     "build:other": "cross-env DEV_MODULE=other node build/index.js other",
     "format": "prettier --write \"./**/*.{html,vue,js,jsx}\"",
     "lint": "eslint --ext .js,.vue,.jsx src",
-    "clean": "rimraf node_modules"
+    "clean": "rimraf node_modules",
+    "inspectP": "vue-cli-service inspect --mode production >> webpack.config.prod.js"
   },
   "dependencies": {
     "@vueuse/core": "^10.7.0",
