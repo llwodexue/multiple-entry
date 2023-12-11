@@ -5,7 +5,7 @@ const PAGES = require('./build/pages')
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
-const port = process.env.port || 9525
+const port = process.env.port || 9530
 const isProduction = process.env.NODE_ENV === 'production'
 let moduleName = process.env.MODULE_NAME || 'admin'
 let pages = {}
@@ -15,14 +15,12 @@ for (const basename in PAGES) {
     PAGES[basename].chunks = ['chunk-libs', 'chunk-elementUI', 'chunk-commons', `${basename}`]
   }
 }
-if (!isProduction) {
-  // 开发环境：有效模块列表，未指定则为全部页面列表
-  const devModule = process.env.DEV_MODULE || 'all'
-  if (devModule === 'all') {
-    pages = PAGES
-  } else {
-    pages[devModule] = PAGES[devModule]
-  }
+// 有效模块列表，未指定则为全部页面列表
+const devModule = process.env.DEV_MODULE || 'all'
+if (devModule === 'all') {
+  pages = PAGES
+} else {
+  pages[devModule] = PAGES[devModule]
 }
 
 module.exports = defineConfig({
@@ -37,10 +35,7 @@ module.exports = defineConfig({
     port: port,
     open: true,
     client: {
-      overlay: {
-        warnings: false,
-        errors: false
-      }
+      overlay: false
     },
     proxy: {
       '^/admin': {
