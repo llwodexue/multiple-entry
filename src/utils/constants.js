@@ -1,4 +1,4 @@
-import { beginOfDay, endOfDay } from '@/utils/dateUtils'
+import { beginOfDay, endOfDay } from '@/utils/date-utils'
 
 export const datePickerOptions = {
   shortcuts: [
