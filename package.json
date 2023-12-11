@@ -6,9 +6,9 @@
     "dev:admin": "cross-env DEV_MODULE=admin vue-cli-service serve",
     "dev:other": "cross-env DEV_MODULE=other vue-cli-service serve",
     "start": "npm run start --prefix ./server",
-    "build": "cross-env NODE_ENV=production node build/index.js",
-    "build:admin": "cross-env NODE_ENV=production node build/index.js admin",
-    "build:other": "cross-env NODE_ENV=production node build/index.js other",
+    "build": "node build/index.js",
+    "build:admin": "cross-env DEV_MODULE=admin node build/index.js admin",
+    "build:other": "cross-env DEV_MODULE=other node build/index.js other",
     "format": "prettier --write \"./**/*.{html,vue,js,jsx}\"",
     "lint": "eslint --ext .js,.vue,.jsx src",
     "clean": "rimraf node_modules"
