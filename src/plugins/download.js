@@ -41,7 +41,7 @@ export default {
       fileName = fileName || (result && result[1])
     }
     const blob = new Blob([data], { type: mineType })
-    window.URL = window.URL || window.webkitURL
+    const URL = window.URL || window.webkitURL
     const link = document.createElement('a')
     const href = URL.createObjectURL(blob)
     link.href = href
