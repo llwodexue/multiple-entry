@@ -67,9 +67,6 @@ devDependencies:
   babel-plugin-dynamic-import-node:
     specifier: 2.3.3
     version: registry.npmmirror.com/babel-plugin-dynamic-import-node@2.3.3
-  babel-plugin-transform-remove-console:
-    specifier: ^6.9.4
-    version: 6.9.4
   chalk:
     specifier: 4.1.0
     version: 4.1.0
@@ -695,10 +692,6 @@ packages:
   /babel-helper-vue-jsx-merge-props@2.0.3:
     resolution: {integrity: sha512-gsLiKK7Qrb7zYJNgiXKpXblxbV5ffSwR0f5whkPAaBAR4fhi6bwRZxX9wBlIc5M/v8CCkXUbXZL4N/nSE97cqg==, tarball: https://registry.npmmirror.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz}
     dev: false
-
-  /babel-plugin-transform-remove-console@6.9.4:
-    resolution: {integrity: sha512-88blrUrMX3SPiGkT1GnvVY8E/7A+k6oj3MNvUtTIxJflFzXTw1bHkuJ/y039ouhFMp2prRn5cQGzokViYi1dsg==, tarball: https://registry.npmmirror.com/babel-plugin-transform-remove-console/-/babel-plugin-transform-remove-console-6.9.4.tgz}
-    dev: true
 
   /big.js@5.2.2:
     resolution: {integrity: sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==, tarball: https://registry.npmmirror.com/big.js/-/big.js-5.2.2.tgz}

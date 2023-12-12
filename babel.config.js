@@ -3,9 +3,6 @@ module.exports = {
   env: {
     development: {
       plugins: ['dynamic-import-node']
-    },
-    production: {
-      plugins: ['transform-remove-console']
     }
   },
   compact: false

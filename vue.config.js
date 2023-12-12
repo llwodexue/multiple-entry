@@ -86,6 +86,12 @@ module.exports = defineConfig({
       config.plugins.delete(`prefetch-${name}`)
     })
 
+    config.optimization.minimizer('terser').tap(options => {
+      options[0].terserOptions.compress.drop_console = true
+      options[0].terserOptions.compress.drop_debugger = true
+      return options
+    })
+
     // set svg-sprite-loader
     config.module.rule('svg').exclude.add(resolve(`src/assets/icons`)).end()
     config.module
