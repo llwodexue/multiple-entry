@@ -24,7 +24,7 @@ if (devModule === 'all') {
 }
 
 module.exports = defineConfig({
-  transpileDependencies: true,
+  // transpileDependencies: true,
   publicPath: isProduction ? `./` : '/',
   pages,
   outputDir: `dist/${moduleName}`,
