@@ -9,6 +9,8 @@
     "build": "node build/index.js",
     "build:admin": "cross-env DEV_MODULE=admin node build/index.js admin",
     "build:other": "cross-env DEV_MODULE=other node build/index.js other",
+    "mvn:admin": "npm run build:admin && mvn clean && mvn install",
+    "mvn:other": "npm run build:other && mvn clean && mvn install",
     "format": "prettier --write \"./**/*.{html,vue,js,jsx}\"",
     "lint": "eslint --ext .js,.vue,.jsx src",
     "clean": "rimraf node_modules",
