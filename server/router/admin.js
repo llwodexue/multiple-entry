@@ -2,7 +2,7 @@ const express = require('express')
 const { decryptAPI, encryptAPI } = require('../config')
 const { decryptAES, encryptAES } = require('../utils/aes-base64')
 const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../utils/jwt')
-const { dynamicRoutes } = require('../utils/dynamic')
+const { AdminRoutes } = require('../utils/dynamic')
 const jwt = require('jsonwebtoken')
 
 const router = express.Router()
@@ -51,7 +51,7 @@ router.get('/getUserInfo', (req, res) => {
   if (valid) {
     let user = {
       operator: { operatorName: 'admin', avatar: null },
-      menuList: dynamicRoutes,
+      menuList: AdminRoutes,
       buttonList: ['*:*:*']
     }
     if (encryptAPI) user = encryptAES(JSON.stringify(user))
