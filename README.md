@@ -551,3 +551,104 @@ module.exports = {
 需要在根目录添加 `pom.xml` 即可
 
 - pom 是 Project Object Model（项目对象模型）的缩写，是 Maven 中的项目文件，可用于管理与配置依赖，组织信息，项目授权，远程仓库等等
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <!--工父程相关信息，属于哪个组-->
+  <groupId>com.myapp.base</groupId>
+  <!-- 项目所在组中的唯一 ID -->
+  <artifactId>myapp-base-ui</artifactId>
+  <!-- 打包类型：做为子项目打成 jar 包 -->
+  <packaging>jar</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <properties>
+    <java.version>1.8</java.version>
+  </properties>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>package/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*.*</include>
+        </includes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>package/main/resources</directory>
+              <includes>
+                <include>**/*</include>
+              </includes>
+              <followSymlinks>false</followSymlinks>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <outputDirectory>package/main/resources/static</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>dist</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+```
+
+只主项目里或其它子项目里直接引入 web 项目即可
+
+```xml
+<dependency>
+  <groupId>com.myapp.base</groupId>
+  <artifactId>myapp-base-ui</artifactId>
+  <version>${myapp.base.version}</version>
+</dependency>
+```
+
+在 spring 拦截器里，需要再指定一下静态文件目录
+
+```java
+@Configuration
+public class ResourcesConfig implements WebMvcConfigurer {
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    /** swagger配置 */
+    registry.addResourceHandler("/swagger-ui/**")
+      .addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/");
+    /** web静态文件配置 */
+    registry.addResourceHandler("/static/**")
+      .addResourceLocations("classpath:/static/");
+  }
+}
+```
+
