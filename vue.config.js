@@ -15,12 +15,18 @@ for (const basename in PAGES) {
     PAGES[basename].chunks = ['chunk-libs', 'chunk-elementUI', 'chunk-commons', `${basename}`]
   }
 }
-// 有效模块列表，未指定则为全部页面列表
-const devModule = process.env.DEV_MODULE || 'all'
-if (devModule === 'all') {
-  pages = PAGES
+
+if (isProduction) {
+  // fix: Conflict: Multiple assets emit different content to the same filename index.html
+  pages[moduleName] = PAGES[moduleName]
 } else {
-  pages[devModule] = PAGES[devModule]
+  // 有效模块列表，未指定则为全部页面列表
+  const devModule = process.env.DEV_MODULE || 'all'
+  if (devModule === 'all') {
+    pages = PAGES
+  } else {
+    pages[devModule] = PAGES[devModule]
+  }
 }
 
 module.exports = defineConfig({
@@ -135,8 +141,8 @@ module.exports = defineConfig({
           }
         }
       })
-      // 将runtime代码单独打包。注意：由于是多入口打包不能使用single
-      config.optimization.runtimeChunk('multiple')
+      // 将runtime代码单独打包
+      config.optimization.runtimeChunk('single')
     })
   }
 })

@@ -41,6 +41,9 @@ for (let i = 0; i < validPageList.length; i += 1) {
     if (current === count) {
       console.log(chalk.green('-----全部模块编译完成-----'))
       console.timeEnd('总编译时间')
+      sh(`cp index.html dist`)
+      sh(`cp public/favicon.ico dist`)
+      console.log(chalk.green('-----文件拷贝完成-----'))
     }
   })
 }

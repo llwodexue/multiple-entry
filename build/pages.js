@@ -5,13 +5,13 @@ const pages = {
   admin: {
     title: process.env.VUE_APP_ADMIN_TITLE,
     entry: 'src/pages/admin/main.js',
-    template: 'index.html',
+    template: 'index-admin.html',
     filename: isProduction ? 'index.html' : 'admin/index.html'
   },
   other: {
     title: process.env.VUE_APP_OTHER_TITLE,
     entry: 'src/pages/other/main.js',
-    template: 'index.html',
+    template: 'index-other.html',
     filename: isProduction ? 'index.html' : 'other/index.html'
   }
 }
