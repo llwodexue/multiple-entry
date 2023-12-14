@@ -652,3 +652,159 @@ public class ResourcesConfig implements WebMvcConfigurer {
 }
 ```
 
+### 🐏 SASS
+
+css 全局变量
+
+- 需要把 `pretendData` 改为 `additionalData `
+
+```js
+/** vue.config.js */
+css: {
+  loaderOptions: {
+    sass: {
+      additionalData: '@import "~@/styles/variables.scss";'
+    }
+  }
+}
+```
+
+再升级 sass 版本 和 sass-loader 版本，需要同时升级，不然会出现警告
+
+- 注意里面 deep 写法也需要改变，需要改为 `::v-deep`
+
+```bash
+$ npm i sass sass-loader@12
+- "sass": "1.26.2"
+- "sass-loader": "8.0.2"
++ "sass": "^1.44.0"
++ "sass-loader": "^12.6.0"
+```
+
+**这个一定要解决**
+
+```bash
+warning  in ./src/pages/xx/components/layout/components/Sidebar/index.vue?vue&type=script&lang=js&
+export 'default' (imported as 'variables') was not found in '@/styles/variables.scss' (module has no exports)
+```
+
+因为页面里用到了 `variables.scss` 导出的变量，新版如果没有进行处理会导致页面阻塞
+
+- 需要将 `variables.scss` 名改为 `variables.module.scss`
+
+### 🐵 Vue-cli4->5
+
+> 官方文档：[https://cli.vuejs.org/migrations/migrate-from-v4.html](https://cli.vuejs.org/migrations/migrate-from-v4.html)
+>
+> - 可以先使用 `vue upgrade` 命令自动升级，一般会有如下几个文件发生修改
+>
+> ![image-20230810101857391](https://gitee.com/lilyn/pic/raw/master/lagoulearn-img/image-20230810101857391.png)
+
+补充上面没有提到的内容
+
+1. 之前使用 JSDoc 的形式可以改为 `defineConfig` 帮手函数，提示更加友好
+
+   ```js
+   /**
+    * @type {import('@vue/cli-service').ProjectOptions}
+    */
+   module.exports = { }
+   
+   // 需要改为如下内容
+   const { defineConfig } = require('@vue/cli-service')
+   module.exports = defineConfig({ })
+   ```
+
+2. 配置的问题比较好改，可以先看下官方文档。简单改完之后使用 `npm run dev` 启动看报错提示即可，报错信息很详细，遗漏的很快就能改好
+
+   ```bash
+   ValidationError: Invalid options object. Dev Server has been initialized using an options
+   
+   object that does not match the API schema.
+   	- options has an unknown property 'disableHostCheck'. These properties are valid:        
+   	object { allowedHosts?, bonjour?, client?, compress?, devMiddleware?, headers?, historyApiFallback?, host?, hot?, http2?, https?, ipc?, liveReload?, magicHtml?, onAfterSetupMiddleware?, onBeforeSetupMiddleware?, onListening?, open?, port?, proxy?, server?, setupExitSignals?, setupMiddlewares?, static?, watchFiles?, webSocketServer? }
+   ```
+
+   比如：这里报错 `disableHostCheck` 是未知属性，就可以在这个 [文档](https://cli.vuejs.org/migrations/migrate-from-v4.html) 中查一下，看看它改成了什么
+
+   - The `disableHostCheck` option was removed in favor `allowedHosts: 'all'`
+
+   ```js
+   devServer: {
+     disableHostCheck: true
+   }
+   // 需要改为
+   devServer: {
+     allowedHosts: "all"
+   }
+   ```
+
+3. `devtool` 更加严格，填写之前去 webpack 官网查一下：
+
+   [https://www.webpackjs.com/configuration/devtool/](https://www.webpackjs.com/configuration/devtool/)
+
+   ```bash
+   ValidationError: Invalid configuration object. Webpack has been initialized using a configuration object that does not match the API schema.
+   	- configuration.devtool should match pattern "^(inline-|hidden-|eval-)?(nosources-)?(cheap-(module-)?)?source-map$".
+   	BREAKING CHANGE since webpack 5: The devtool option is more strict.
+   Please strictly follow the order of the keywords in the pattern
+   ```
+
+   比如：你写 `cheap-module-eval-source-map` 是不合法的
+
+   - 需要改为 `eval-cheap-module-source-map`
+
+   ```js
+   config.when(process.env.NODE_ENV === 'development', config => config.devtool('eval-cheap-module-source-map'))
+   ```
+
+4. 官网没有提及的插件： 
+
+   `svg-sprite-loader` 4 版本会报错
+
+   ```bash
+   ERROR in ./src/pages/xx/icons/svg/wechat.svg
+   Module build failed (from ./node_modules/svg-sprite-loader/lib/loader.js):
+   Error: Cannot find module 'webpack/lib/RuleSet'
+   ```
+
+   升级 `svg-sprite-loader` 即可
+
+   ```bash
+   $ npm i svg-sprite-loader@6
+   - "svg-sprite-loader": "4.1.3"
+   + "svg-sprite-loader": "^6.0.11"
+   ```
+
+5. 打包两次问题，Vue-cli5 以后你会发现会打包两次
+
+   ```bash
+   -  Building legacy bundle for production...
+   -  Building module bundle for production...
+   ```
+
+   主要是因为要兼容浏览器导致，可以在 `.browserslistrc` 里配置 `not dead`
+
+      ```js
+   > 1%
+   last 2 versions
+   not dead
+      ```
+
+   再进行打包就只会打包一次
+
+      ```bash
+   -  Building for production...
+      ```
+
+
+**其他问题**
+
+页面报错：ReferenceError: process is not defined
+
+`vue-element-admin` 架子里有 `SidebarItem.vue` 这个文件
+
+- 这里面有个 `resolvePath` 方法，里面使用了 `path.resolve`
+- webpack5 不再自动填充 Node 核心模块，浏览器环境页没有内置的 `path` 模块
+
+解决方法：自己实现一下 `path.resolve` 方法，并替换进去即可，不推荐使用 `path-browserify` 来替代`path` 模块
