@@ -19,7 +19,7 @@ export default {
 .app-container {
   /* height: 100%; */
   width: 100%;
-  background: url('~@/assets/images/home.png') no-repeat 100% 100%;
+  background: url('~@/assets/images/other.png') no-repeat 100% 100% / contain;
 }
 .big-title {
   padding-top: 180px;
