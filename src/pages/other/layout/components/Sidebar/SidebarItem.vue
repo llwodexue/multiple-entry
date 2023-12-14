@@ -2,12 +2,10 @@
   <div v-if="!item.hidden">
     <template
       v-if="
-        hasOneShowingChild(item.children, item) &&
-        (!onlyOneChild.children || onlyOneChild.noShowingChildren) &&
-        !item.alwaysShow
+        hasOneShowingChild(item.children, item) && (!onlyOneChild.children || onlyOneChild.noShowingChildren) && !item.alwaysShow
       "
     >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path, onlyOneChild.query)">
         <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{ 'submenu-title-noDropdown': !isNest }">
           <item :icon="onlyOneChild.meta.icon || (item.meta && item.meta.icon)" :title="onlyOneChild.meta.title" />
         </el-menu-item>
@@ -31,7 +29,7 @@
 </template>
 
 <script>
-import path from 'path'
+import { getNormalPath } from '@/utils'
 import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
@@ -88,14 +86,18 @@ export default {
 
       return false
     },
-    resolvePath(routePath) {
+    resolvePath(routePath, routeQuery) {
       if (isExternal(routePath)) {
         return routePath
       }
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return path.resolve(this.basePath, routePath)
+      if (routeQuery) {
+        const query = JSON.parse(routeQuery)
+        return { path: getNormalPath(this.basePath + '/' + routePath), query: query }
+      }
+      return getNormalPath(this.basePath + '/' + routePath)
     }
   }
 }

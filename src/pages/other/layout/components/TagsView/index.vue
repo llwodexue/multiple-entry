@@ -48,7 +48,7 @@
 
 <script>
 import ScrollPane from './ScrollPane'
-import path from 'path'
+import { getNormalPath } from '@/utils'
 
 export default {
   components: { ScrollPane },
@@ -121,7 +121,7 @@ export default {
       let tags = []
       routes.forEach(route => {
         if (route.meta && route.meta.affix) {
-          const tagPath = path.resolve(basePath, route.path)
+          const tagPath = getNormalPath(basePath, route.path)
           tags.push({
             fullPath: tagPath,
             path: tagPath,
@@ -261,9 +261,7 @@ export default {
   width: 100%;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.12),
-    0 0 3px 0 rgba(0, 0, 0, 0.04);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
