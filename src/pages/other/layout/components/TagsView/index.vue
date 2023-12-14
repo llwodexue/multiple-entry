@@ -117,11 +117,11 @@ export default {
         return false
       }
     },
-    filterAffixTags(routes, basePath = '/') {
+    filterAffixTags(routes, basePath = '') {
       let tags = []
       routes.forEach(route => {
         if (route.meta && route.meta.affix) {
-          const tagPath = getNormalPath(basePath, route.path)
+          const tagPath = getNormalPath(basePath + '/' + route.path)
           tags.push({
             fullPath: tagPath,
             path: tagPath,
