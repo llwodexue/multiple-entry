@@ -6,7 +6,7 @@ exports.OtherRoutes = [
     redirect: '/template/example-vue',
     component: 'ParentView',
     alwaysShow: true,
-    meta: { title: '快速指南', icon: 't-system', noCache: false },
+    meta: { title: '快速指南', icon: 'guide', noCache: false },
     children: [
       {
         name: 'ExampleVue',
@@ -15,7 +15,7 @@ exports.OtherRoutes = [
         redirect: '/template/example-vue/setup-page',
         component: 'layout',
         alwaysShow: true,
-        meta: { title: '示例页面', icon: 't-system', noCache: false },
+        meta: { title: '代码示例', icon: 'system', noCache: false },
         children: [
           {
             name: 'SetupPage',

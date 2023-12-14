@@ -67,10 +67,10 @@ export default {
     },
     // 当前菜单选中时
     onHandleSelect(item) {
-      const { path, redirect } = item
+      const { redirect, name } = item
       if (item.meta.isLink && !item.meta.isIframe) window.open(item.meta.isLink)
       else if (redirect) this.$router.push(redirect)
-      else this.$router.push(path)
+      else this.$router.push({ name: name })
       this.closeSearch()
     },
     // input 失去焦点时
