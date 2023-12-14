@@ -2,7 +2,7 @@ const express = require('express')
 const { decryptAPI, encryptAPI } = require('../config')
 const { decryptAES, encryptAES } = require('../utils/aes-base64')
 const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../utils/jwt')
-const { OtherRoutes } = require('../utils/dynamic')
+const { OtherRoutes } = require('../config/dynamic-other')
 const jwt = require('jsonwebtoken')
 
 const router = express.Router()
