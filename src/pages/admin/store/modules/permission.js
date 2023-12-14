@@ -5,6 +5,7 @@ import ParentView from '@/components/ParentView'
 const permission = {
   state: {
     routes: [],
+    flattenRoutes: [],
     addRoutes: [],
     sidebarRouters: [], // 左侧边菜单的路由，被 Sidebar/index.vue 使用
     topbarRouters: [] // 顶部菜单的路由，被 TopNav/index.vue 使用
@@ -22,6 +23,9 @@ const permission = {
     },
     SET_SIDEBAR_ROUTERS: (state, routes) => {
       state.sidebarRouters = routes
+    },
+    SET_FLATTEN_ROUTERS: (state, routes) => {
+      state.flattenRoutes = routes
     }
   },
   actions: {
@@ -39,7 +43,9 @@ const permission = {
         const rdata = JSON.parse(JSON.stringify(data)) // 用于最后添加到 Router 中的数据
         const sidebarRoutes = filterAsyncRouter(sdata)
         const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+        const flattenRoutes = flatteningRouters(rewriteRoutes)
         rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
+        commit('SET_FLATTEN_ROUTERS', flattenRoutes)
         commit('SET_ROUTES', rewriteRoutes)
         commit('SET_SIDEBAR_ROUTERS', constantRoutes.concat(sidebarRoutes))
         commit('SET_DEFAULT_ROUTES', sidebarRoutes)
@@ -48,6 +54,16 @@ const permission = {
       })
     }
   }
+}
+
+function flatteningRouters(arr) {
+  if (arr.length <= 0) return false
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].children) {
+      arr = arr.slice(0, i + 1).concat(arr[i].children, arr.slice(i + 1))
+    }
+  }
+  return arr
 }
 
 // 遍历后台传来的路由字符串，转换为组件对象

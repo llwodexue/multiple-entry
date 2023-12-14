@@ -1,17 +1,15 @@
 <template>
   <div class="navbar">
-    <hamburger
-      id="hamburger-container"
-      :is-active="sidebar.opened"
-      class="hamburger-container"
-      @toggleClick="toggleSideBar"
-    />
+    <hamburger id="hamburger-container" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb v-if="!topNav" id="breadcrumb-container" class="breadcrumb-container" />
     <top-nav v-if="topNav" id="topmenu-container" class="topmenu-container" />
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
+        <div class="right-menu-item hover-effect" @click="onSearchClick">
+          <i class="el-icon-search" title="菜单搜索" />
+        </div>
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
         <span class="user-name">{{ name }}</span>
       </template>
@@ -32,13 +30,9 @@
       </el-dropdown>
     </div>
 
-    <el-dialog
-      :visible.sync="newPassVisible"
-      :close-on-click-modal="false"
-      title="修改密码"
-      append-to-body
-      width="500px"
-    >
+    <Search ref="searchRef" />
+
+    <el-dialog :visible.sync="newPassVisible" :close-on-click-modal="false" title="修改密码" append-to-body width="500px">
       <el-form
         ref="newPassRef"
         :rules="newPassRules"
@@ -72,13 +66,15 @@ import Breadcrumb from '@/components/Breadcrumb'
 import TopNav from '@admin/components/TopNav'
 import Hamburger from '@/components/Hamburger'
 import Screenfull from '@/components/Screenfull'
+import Search from './Search'
 
 export default {
   components: {
     Breadcrumb,
     TopNav,
     Hamburger,
-    Screenfull
+    Screenfull,
+    Search
   },
   data() {
     const validatePass = (rule, value, callback) => {
@@ -116,6 +112,9 @@ export default {
     }
   },
   methods: {
+    onSearchClick() {
+      this.$refs.searchRef.openSearch()
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -132,14 +131,12 @@ export default {
     submitForm() {
       this.$refs['newPassRef'].validate(valid => {
         if (valid) {
-          changePwd({ srcPassword: this.newPassForm.srcPassword, newPassword: this.newPassForm.newPassword }).then(
-            res => {
-              if (res.code === 200) {
-                this.$modal.msgSuccess('密码修改成功')
-                this.newPassVisible = false
-              }
+          changePwd({ srcPassword: this.newPassForm.srcPassword, newPassword: this.newPassForm.newPassword }).then(res => {
+            if (res.code === 200) {
+              this.$modal.msgSuccess('密码修改成功')
+              this.newPassVisible = false
             }
-          )
+          })
         }
       })
     }
