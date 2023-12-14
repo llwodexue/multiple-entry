@@ -68,7 +68,6 @@ export default {
     // 当前菜单选中时
     onHandleSelect(item) {
       const { path, redirect } = item
-      console.log(path, redirect)
       if (item.meta.isLink && !item.meta.isIframe) window.open(item.meta.isLink)
       else if (redirect) this.$router.push(redirect)
       else this.$router.push(path)
