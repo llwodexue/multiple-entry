@@ -60,7 +60,15 @@
         <RightToolbar :show-search.sync="showSearch" :columns.sync="columns" @queryTable="getList" />
       </div>
 
-      <VTable ref="tableRef" :loading="loading" :table-data="dataList" :table-header="columns" @selection-change="selectChange" />
+      <el-form>
+        <VTable
+          ref="tableRef"
+          :loading="loading"
+          :table-data="dataList"
+          :table-header="columns"
+          @selection-change="selectChange"
+        />
+      </el-form>
 
       <Pagination :page.sync="queryParams.pageNumber" :limit.sync="queryParams.pageSize" :total="total" @pagination="getList" />
     </div>
