@@ -112,7 +112,7 @@ import { ref, reactive, toRefs, getCurrentInstance } from 'vue'
 import VTable from '@/components/VTable'
 import { columns } from './config/tableConfig'
 import { deepClone, addDateRange } from '@/utils'
-import { datePickerOptions } from '@/utils/constants'
+import { datePickerOptions } from '@/constants'
 
 const { proxy } = getCurrentInstance()
 const dataList = ref([])

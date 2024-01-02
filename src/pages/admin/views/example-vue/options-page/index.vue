@@ -114,7 +114,7 @@ import { useDebounceFn } from '@vueuse/core'
 import VTable from '@/components/VTable'
 import { columns } from './config/tableConfig'
 import { deepClone, addDateRange } from '@/utils'
-import { datePickerOptions } from '@/utils/constants'
+import { datePickerOptions } from '@/constants'
 
 export default {
   name: 'OptionsPage',
