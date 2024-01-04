@@ -91,3 +91,31 @@ exports.AdminRoutes = [
     ]
   }
 ]
+
+exports.UserRoutes = [
+  {
+    name: 'ExampleVue',
+    path: '/example-vue',
+    hidden: false,
+    alwaysShow: true,
+    redirect: '/example-vue/setup-page',
+    component: 'layout',
+    meta: { title: '代码示例', icon: 'system', noCache: false },
+    children: [
+      {
+        name: 'SetupPage',
+        path: 'setup-page',
+        hidden: false,
+        component: 'example-vue/setup-page/index',
+        meta: { title: '组合式API示例页面', icon: 'list', noCache: false }
+      },
+      {
+        name: 'OptionsPage',
+        path: 'options-page',
+        hidden: false,
+        component: 'example-vue/options-page/index',
+        meta: { title: '选项式API示例页面', icon: 'list', noCache: false }
+      }
+    ]
+  }
+]

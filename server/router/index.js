@@ -3,6 +3,7 @@ const expressJwt = require('express-jwt')
 const adminRouter = require('./admin')
 const otherRouter = require('./other')
 const { PRIVATE_KEY } = require('../utils/jwt')
+const { UNAUTHORIZED, ERROR } = require('../utils/HttpStatus')
 
 const router = express.Router()
 
@@ -24,19 +25,11 @@ router.use('/admin', adminRouter)
 router.use('/other', otherRouter)
 router.use((err, req, res, next) => {
   if (err.name && err.name === 'UnauthorizedError') {
-    res.json({
-      code: 401,
-      data: null,
-      msg: 'Token验证失败'
-    })
+    res.json(UNAUTHORIZED)
   } else {
     const msg = (err && err.message) || '系统错误'
     const code = (err.output && err.output.statusCode) || 500
-    res.json({
-      code,
-      data: null,
-      msg
-    })
+    res.json({ ...ERROR, ...{ code, msg } })
   }
 })
 
