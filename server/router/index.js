@@ -23,6 +23,8 @@ router.get('/', (req, res) => {
 })
 router.use('/admin', adminRouter)
 router.use('/other', otherRouter)
+
+/** catch must be last */
 router.use((err, req, res, next) => {
   if (err.name && err.name === 'UnauthorizedError') {
     res.json(UNAUTHORIZED)
