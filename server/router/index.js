@@ -1,8 +1,11 @@
 const express = require('express')
 const { adminRouter, otherRouter } = require('./modules')
-const { catchMiddleware, jwtMiddleware } = require('../middleware')
+const { catchMiddleware, jwtMiddleware, loggerMiddleware } = require('../middleware')
 
 const router = express.Router()
+
+/** logger */
+router.use(loggerMiddleware)
 
 /** jwt 401 */
 router.use(jwtMiddleware)

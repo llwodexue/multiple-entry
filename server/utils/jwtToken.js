@@ -6,7 +6,8 @@ const AUTHOR_KEY = 'Authorization'
 const UNLESS_PATH = ['/', '/admin/login', '/other/login']
 
 function verifyJwtToken(req) {
-  let token = req.get(AUTHOR_KEY)
+  let token = req.get(AUTHOR_KEY) || ''
+  if (!token) return ''
   if (token.indexOf('Bearer') >= 0) {
     token = token.replace('Bearer ', '')
   }
