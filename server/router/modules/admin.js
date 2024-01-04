@@ -1,16 +1,16 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
-const { decryptAPI, encryptAPI } = require('../config')
-const { decryptAES, encryptAES } = require('../utils/aes-base64')
-const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../utils/jwt')
-const { OtherRoutes } = require('../config/dynamic-other')
-const { PASSWORD_ERROR, USER_NOT_EXIST, SUCCESS } = require('../utils/HttpStatus')
+const { decryptAPI, encryptAPI } = require('../../config')
+const { decryptAES, encryptAES } = require('../../utils/aes-base64')
+const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../../utils/jwt')
+const { AdminRoutes, UserRoutes } = require('../../config/dynamic-admin')
+const { PASSWORD_ERROR, USER_NOT_EXIST, SUCCESS } = require('../../utils/HttpStatus')
 
 const router = express.Router()
 
 const userDBList = [
-  { username: 'other', password: 'other123' },
-  { username: 'person', password: 'person123' }
+  { username: 'admin', password: 'admin123' },
+  { username: 'user', password: 'user123' }
 ]
 router.post('/login', (req, res, next) => {
   let resData = req.body
@@ -28,13 +28,14 @@ router.post('/login', (req, res, next) => {
     res.json(USER_NOT_EXIST)
   }
 })
+
 router.get('/getUserInfo', (req, res) => {
   const decodeJwt = verifyJwtToken(req)
   if (decodeJwt) {
     const username = decodeJwt.username
     let user = {
       operator: { operatorName: username, avatar: null },
-      menuList: OtherRoutes,
+      menuList: username === 'admin' ? AdminRoutes : UserRoutes,
       buttonList: ['*:*:*']
     }
     if (encryptAPI) user = encryptAES(JSON.stringify(user))

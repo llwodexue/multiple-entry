@@ -1,7 +1,6 @@
 const express = require('express')
 const expressJwt = require('express-jwt')
-const adminRouter = require('./admin')
-const otherRouter = require('./other')
+const { adminRouter, otherRouter } = require('./modules')
 const { PRIVATE_KEY } = require('../utils/jwt')
 const { UNAUTHORIZED, ERROR } = require('../utils/HttpStatus')
 
