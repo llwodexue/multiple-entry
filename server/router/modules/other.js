@@ -1,10 +1,10 @@
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const { decryptAPI, encryptAPI } = require('../../config')
-const { decryptAES, encryptAES } = require('../../utils/aes-base64')
-const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../../utils/jwt')
+const { decryptAES, encryptAES } = require('../../utils/aesBase64')
+const { PRIVATE_KEY, JWT_EXPIRED, verifyJwtToken } = require('../../utils/jwtToken')
 const { OtherRoutes } = require('../../config/dynamic-other')
-const { PASSWORD_ERROR, USER_NOT_EXIST, SUCCESS } = require('../../utils/HttpStatus')
+const { PASSWORD_ERROR, USER_NOT_EXIST, SUCCESS } = require('../../utils/httpStatus')
 
 const router = express.Router()
 

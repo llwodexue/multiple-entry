@@ -1,20 +1,11 @@
 const express = require('express')
-const expressJwt = require('express-jwt')
 const { adminRouter, otherRouter } = require('./modules')
-const { PRIVATE_KEY } = require('../utils/jwt')
-const { UNAUTHORIZED, ERROR } = require('../utils/HttpStatus')
+const { catchMiddleware, jwtMiddleware } = require('../middleware')
 
 const router = express.Router()
 
-/** jwt */
-const jwtAuth = expressJwt({
-  secret: PRIVATE_KEY,
-  algorithms: ['HS256'],
-  credentialsRequired: true
-}).unless({
-  path: ['/', '/admin/login', '/other/login', '/admin/logout']
-})
-router.use(jwtAuth)
+/** jwt 401 */
+router.use(jwtMiddleware)
 
 /** router */
 router.get('/', (req, res) => {
@@ -24,14 +15,6 @@ router.use('/admin', adminRouter)
 router.use('/other', otherRouter)
 
 /** catch must be last */
-router.use((err, req, res, next) => {
-  if (err.name && err.name === 'UnauthorizedError') {
-    res.json(UNAUTHORIZED)
-  } else {
-    const msg = (err && err.message) || '系统错误'
-    const code = (err.output && err.output.statusCode) || 500
-    res.json({ ...ERROR, ...{ code, msg } })
-  }
-})
+router.use(catchMiddleware)
 
 module.exports = router
