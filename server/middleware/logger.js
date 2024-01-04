@@ -43,12 +43,12 @@ const loggerMiddleware = async (req, res, next) => {
   if (decodeJwt) {
     user = decodeJwt.username
   }
-  await next()
   const msg = `
-    请求用户: ${user},请求接口: ${req.url},请求类型: ${req.method}
-    params入参: ${JSON.stringify(req.query)}
-    body入参:  ${JSON.stringify(req.body)}\n`
+  请求用户: ${user},请求接口: ${req.url},请求类型: ${req.method}
+  params入参: ${JSON.stringify(req.query)}
+  body入参:  ${JSON.stringify(req.body)}\n`
   logger.info(msg)
+  next()
 }
 
 module.exports = loggerMiddleware
