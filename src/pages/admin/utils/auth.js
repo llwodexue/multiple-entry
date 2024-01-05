@@ -1,5 +1,5 @@
 import { decrypt, encrypt } from '@/utils/jsencrypt'
-import { AUTHOR_KEY } from '@admin/settings'
+import { AUTHOR_KEY } from '@admin/global'
 
 // ========== Token 相关 ==========
 

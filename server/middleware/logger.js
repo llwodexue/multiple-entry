@@ -1,6 +1,7 @@
 const path = require('path')
 const log4js = require('log4js')
 const { verifyJwtToken } = require('../utils/jwtToken')
+const { UNAUTHORIZED } = require('../utils/httpStatus')
 
 const envLevel = process.env.NODE_ENV === 'prod' ? 'warn' : 'info'
 
@@ -38,10 +39,14 @@ log4js.configure({
 const logger = log4js.getLogger('access')
 
 const loggerMiddleware = async (req, res, next) => {
-  const decodeJwt = verifyJwtToken(req)
   let user = null
-  if (decodeJwt) {
-    user = decodeJwt.username
+  try {
+    const decodeJwt = verifyJwtToken(req)
+    if (decodeJwt) {
+      user = decodeJwt.username
+    }
+  } catch (e) {
+    res.json(UNAUTHORIZED)
   }
   const msg = `
   请求用户: ${user},请求接口: ${req.url},请求类型: ${req.method}

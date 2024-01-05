@@ -11,6 +11,7 @@ function verifyJwtToken(req) {
   if (token.indexOf('Bearer') >= 0) {
     token = token.replace('Bearer ', '')
   }
+  console.log(token)
   return jwt.verify(token, PRIVATE_KEY)
 }
 
