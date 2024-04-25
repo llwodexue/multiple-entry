@@ -89,6 +89,24 @@ exports.AdminRoutes = [
         meta: { title: '菜单2', icon: 'menu-1', noCache: false }
       }
     ]
+  },
+  {
+    name: 'ExampleCom',
+    path: '/example-com',
+    hidden: false,
+    alwaysShow: true,
+    redirect: '/example-com/my-gantt-chart',
+    component: 'layout',
+    meta: { title: '组件示例', icon: 'components', noCache: false },
+    children: [
+      {
+        name: 'SetupPage',
+        path: 'my-gantt-chart',
+        hidden: false,
+        component: 'example-com/my-gantt-chart/index',
+        meta: { title: '甘特图示例-简单版', icon: 'gantt', noCache: false }
+      }
+    ]
   }
 ]
 

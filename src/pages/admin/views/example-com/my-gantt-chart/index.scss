@@ -1,0 +1,304 @@
+@mixin scrollBar($trackColor: transparent, $thumbColor: #84899155) {
+  &::-webkit-scrollbar-track-piece {
+    background: $trackColor;
+    border-radius: 20px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $thumbColor;
+    border-radius: 20px;
+  }
+}
+@mixin eclipse {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+$activeColor: #365be4;
+$activeBg: #e8edff;
+
+.gt-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+}
+
+.gantt-chart-wrap {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.gantt-chart-box {
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &:hover {
+    .scrollXBar,
+    .scrollYBar {
+      opacity: 1 !important;
+    }
+  }
+
+  > canvas {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 7;
+    pointer-events: none;
+  }
+
+  @mixin cm {
+    position: relative;
+    z-index: 2;
+  }
+
+  // 标题列通用样式
+  .headerCol {
+    flex: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+
+    > .name {
+      @include eclipse;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    // grid y
+    .sLine {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      background: #000000;
+      z-index: 3;
+      pointer-events: none;
+
+      &:first-child {
+        display: none;
+      }
+    }
+  }
+
+  .scrollX {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex: none;
+    position: relative;
+  }
+
+  $headerBg: #e9ebf0;
+
+  .row-header {
+    @include cm;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    background-color: $headerBg;
+    box-sizing: border-box;
+    z-index: 5;
+
+    .header-right {
+      flex: auto;
+      height: 100%;
+      overflow: hidden;
+
+      .paint-col {
+        @extend .headerCol;
+        // &:first-child .sLine {
+        //   display: none;
+        // }
+      }
+    }
+  }
+
+  .row-bottom {
+    @include cm;
+    display: flex;
+    justify-content: space-between;
+
+    .box-left {
+      display: flex;
+      flex-direction: column;
+      flex: none;
+      position: relative;
+
+      .paint-row {
+        width: 100%;
+        flex: none;
+        text-align: center;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+        background-color: #fafafa;
+        position: relative;
+        box-sizing: border-box;
+
+        &.disabled {
+          flex: none;
+          color: #b5b6bf;
+        }
+
+        &.canSelected {
+          // 可以打开任务操作菜单
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.7;
+          }
+        }
+
+        $arrowWd: 8px;
+
+        &.selected {
+          &::after {
+            content: ' ';
+            pointer-events: none;
+            position: absolute;
+            right: -7px;
+            bottom: -7px;
+            border-right: $arrowWd solid $activeColor;
+            border-top: $arrowWd solid transparent;
+            border-left: $arrowWd solid transparent;
+            border-bottom: $arrowWd solid transparent;
+            transform: rotate(225deg);
+          }
+        }
+
+        // &:first-child .sLine {
+        //   display: none;
+        // }
+
+        > .name {
+          @include eclipse;
+          width: 100%;
+        }
+
+        // grid x
+        .sLine {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 1px;
+          background: #000000;
+          z-index: 3;
+          pointer-events: none;
+        }
+      }
+    }
+
+    .box-right {
+      flex: auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    // 画布区域
+    .box-paint {
+      // background-color: #dddddd;
+      position: relative;
+      box-sizing: border-box;
+
+      canvas {
+        left: 0;
+        top: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+      }
+    }
+
+    // 滚动条
+    .scrollXBar {
+      transition: all ease 0.2s;
+      opacity: 0.3;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      overflow-y: hidden;
+      overflow-x: auto;
+      width: 100%;
+      height: 10px;
+      @include scrollBar;
+      z-index: 999;
+
+      > div {
+        height: 10px;
+      }
+    }
+
+    .scrollYBar {
+      transition: all ease 0.2s;
+      opacity: 0.3;
+      position: absolute;
+      right: 0;
+      top: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      width: 10px;
+      @include scrollBar;
+      z-index: 999;
+
+      > div {
+        width: 10px;
+      }
+    }
+  }
+
+  // 最后的统计行
+  .stat-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    background-color: $headerBg;
+    position: relative;
+    z-index: 5;
+
+    .stat-bottom_title {
+      flex: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-bottom_right {
+      flex: auto;
+      height: auto;
+      overflow: hidden;
+
+      .stat-bottom_col {
+        text-align: center;
+        @extend .headerCol;
+      }
+    }
+  }
+}
