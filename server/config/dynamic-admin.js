@@ -100,11 +100,18 @@ exports.AdminRoutes = [
     meta: { title: '组件示例', icon: 'components', noCache: false },
     children: [
       {
-        name: 'SetupPage',
+        name: 'MyGanttChart',
         path: 'my-gantt-chart',
         hidden: false,
         component: 'example-com/my-gantt-chart/index',
         meta: { title: '甘特图示例-简单版', icon: 'gantt', noCache: false }
+      },
+      {
+        name: 'DragGate',
+        path: 'drag-gate',
+        hidden: false,
+        component: 'example-com/drag-gate/index',
+        meta: { title: '拖拽组件', icon: 'gantt', noCache: false }
       }
     ]
   }
