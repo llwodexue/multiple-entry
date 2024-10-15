@@ -1,0 +1,106 @@
+:root,
+:root {
+  --Tky-brand-color-1: #e6f7ff;
+  --Tky-brand-color-2: #a3ddfe;
+  --Tky-brand-color-3: #7bcaff;
+  --Tky-brand-color-4: #52b4ff;
+  --Tky-brand-color-5: #2793f2;
+  --Tky-brand-color-6: #0073e5;
+  --Tky-brand-color-7: #0060bf;
+  --Tky-brand-color-8: #004d99;
+  --Tky-brand-color-9: #003a73;
+  --Tky-brand-color-10: #00274d;
+  --Tky-warning-color-1: #fff9e6;
+  --Tky-warning-color-2: #ffe5a3;
+  --Tky-warning-color-3: #ffd57a;
+  --Tky-warning-color-4: #ffc252;
+  --Tky-warning-color-5: #ffad29;
+  --Tky-warning-color-6: #ff9500;
+  --Tky-warning-color-7: #d97700;
+  --Tky-warning-color-8: #b35c00;
+  --Tky-warning-color-9: #8c4400;
+  --Tky-warning-color-10: #662e00;
+  --Tky-error-color-1: #fff3f0;
+  --Tky-error-color-2: #ffe3de;
+  --Tky-error-color-3: #ffbeb5;
+  --Tky-error-color-4: #ff968c;
+  --Tky-error-color-5: #ff6b63;
+  --Tky-error-color-6: #f53b38;
+  --Tky-error-color-7: #cf2528;
+  --Tky-error-color-8: #a8161d;
+  --Tky-error-color-9: #820a14;
+  --Tky-error-color-10: #5c0610;
+  --Tky-success-color-1: #dcf5ed;
+  --Tky-success-color-2: #a2e8d4;
+  --Tky-success-color-3: #76dbc2;
+  --Tky-success-color-4: #4ecfb3;
+  --Tky-success-color-5: #2bc2a6;
+  --Tky-success-color-6: #0bb59b;
+  --Tky-success-color-7: #018f7e;
+  --Tky-success-color-8: #006960;
+  --Tky-success-color-9: #00423f;
+  --Tky-success-color-10: #001c1c;
+  --Tky-white-color: #ffffff;
+  --Tky-gray-color-1: #f3f6fa;
+  --Tky-gray-color-2: #e4e5ed;
+  --Tky-gray-color-3: #dbdde8;
+  --Tky-gray-color-4: #d0d3de;
+  --Tky-gray-color-5: #bbbdc8;
+  --Tky-gray-color-6: #9ea0ab;
+  --Tky-gray-color-7: #848792;
+  --Tky-gray-color-8: #71747f;
+  --Tky-gray-color-9: #5a5c68;
+  --Tky-gray-color-10: #484a56;
+  --Tky-gray-color-11: #363844;
+  --Tky-gray-color-12: #2b2d39;
+  --Tky-gray-color-13: #232631;
+  --Tky-gray-color-14: #181a26;
+
+  // 文字 & 图标 颜色
+  --Tky-font-white-1: rgba(255, 255, 255, 100%);
+  --Tky-font-white-2: rgba(255, 255, 255, 55%);
+  --Tky-font-white-3: rgba(255, 255, 255, 35%);
+  --Tky-font-white-4: rgba(255, 255, 255, 22%);
+  --Tky-font-gray-1: rgba(0, 0, 0, 90%);
+  --Tky-font-gray-2: rgba(0, 0, 0, 60%);
+  --Tky-font-gray-3: rgba(0, 0, 0, 40%);
+  --Tky-font-gray-4: rgba(0, 0, 0, 26%);
+  // 基础颜色
+  --Tky-brand-color: var(--Tky-brand-color-6);
+  // 色彩-品牌-可操作
+  --Tky-warning-color: var(--Tky-warning-color-6);
+  // 色彩-功能-警告
+  --Tky-error-color: var(--Tky-error-color-6); // 色彩-功能-失败
+  --Tky-success-color: var(--Tky-success-color-6); // 色彩-功能-成功
+  // 基础颜色的扩展 用于 hover / 聚焦 / 禁用 / 点击 等状态
+  --Tky-brand-color-hover: var(--Tky-brand-color-5); // hover态
+  --Tky-brand-color-focus: var(--Tky-brand-color-2); // focus态，包括鼠标和键盘
+  --Tky-brand-color-active: var(--Tky-brand-color-7); // 点击态
+  --Tky-brand-color-disabled: var(--Tky-brand-color-3); // 禁用态
+  --Tky-brand-color-light: var(--Tky-brand-color-1); // 浅色的选中态
+  --Tky-brand-color-light-hover: var(--Tky-brand-color-2);
+  // 警告色扩展
+  --Tky-warning-color-hover: var(--Tky-warning-color-5);
+  --Tky-warning-color-focus: var(--Tky-warning-color-2);
+  --Tky-warning-color-active: var(--Tky-warning-color-7);
+  --Tky-warning-color-disabled: var(--Tky-warning-color-3);
+  --Tky-warning-color-light: var(--Tky-warning-color-1);
+  --Tky-warning-color-light-hover: var(--Tky-warning-color-2);
+  // 失败/错误色扩展
+  --Tky-error-color-hover: var(--Tky-error-color-5);
+  --Tky-error-color-focus: var(--Tky-error-color-2);
+  --Tky-error-color-active: var(--Tky-error-color-7);
+  --Tky-error-color-disabled: var(--Tky-error-color-3);
+  --Tky-error-color-light: var(--Tky-error-color-1);
+  --Tky-error-color-light-hover: var(--Tky-error-color-2);
+  // 成功色扩展
+  --Tky-success-color-hover: var(--Tky-success-color-5);
+  --Tky-success-color-focus: var(--Tky-success-color-2);
+  --Tky-success-color-active: var(--Tky-success-color-7);
+  --Tky-success-color-disabled: var(--Tky-success-color-3);
+  --Tky-success-color-light: var(--Tky-success-color-1);
+  --Tky-success-color-light-hover: var(--Tky-success-color-2);
+  // 遮罩
+  --Tky-mask-active: rgba(0, 0, 0, 60%); // 遮罩-弹出
+  --Tky-mask-disabled: rgba(255, 255, 255, 60%); // 遮罩-禁用
+}
