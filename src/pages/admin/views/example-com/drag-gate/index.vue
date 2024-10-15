@@ -22,13 +22,13 @@
         </div>
       </div>
       <div style="height: 500px; width: 500px; border: 1px solid red; position: relative">
-        <VueDraggableResizable :w="100" :h="100" :parent="true" @dragging="onDrag" @resizing="onResize">
+        <!-- <VueDraggableResizable :w="100" :h="100" :parent="true" @dragging="onDrag" @resizing="onResize">
           <p>
             Hello! I'm a flexible component. You can drag me around and you can resize me.
             <br />
             X: {{ x }} / Y: {{ y }} - Width: {{ width }} / Height: {{ height }}
           </p>
-        </VueDraggableResizable>
+        </VueDraggableResizable> -->
       </div>
     </div>
   </div>
@@ -37,7 +37,7 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import DragClone from 'vuedraggable'
-import VueDraggableResizable from 'vue-draggable-resizable'
+// import VueDraggableResizable from 'vue-draggable-resizable'
 import SuccessGate from './components/SuccessGate.vue'
 
 const width = ref(0)
