@@ -112,6 +112,13 @@ exports.AdminRoutes = [
         hidden: false,
         component: 'example-com/drag-gate/index',
         meta: { title: '拖拽组件', icon: 'gantt', noCache: false }
+      },
+      {
+        name: 'TodoList',
+        path: 'todo-list',
+        hidden: false,
+        component: 'example-com/todo-list/index',
+        meta: { title: 'ToDoList', icon: 'gantt', noCache: false }
       }
     ]
   }
