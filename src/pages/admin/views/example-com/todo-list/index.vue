@@ -5,17 +5,17 @@
         <div class="note-con">
           <div class="note-header">
             <div class="note-title">标签</div>
-            <div class="note-btn" @click="openPanel">
+            <div class="note-btn" @click="handleAdd">
               <svg-icon icon-class="add1" class="icon-add" />
               <span>创建</span>
             </div>
           </div>
           <div class="idea-con">
-            <span class="idea-todo" @click="toDoFlag = false">
+            <span class="idea-todo" @click="setToDoFlag(false)">
               <span class="idea-num">{{ allToDo }}</span>
               个想法
             </span>
-            <span class="idea-finish" @click="toDoFlag = true">
+            <span class="idea-finish" @click="setToDoFlag(true)">
               <span class="idea-num">{{ finishToDo }}</span>
               个已完成
             </span>
@@ -40,6 +40,7 @@
                   <span
                     class="todo-title"
                     :class="[item.isCompleted ? 'todo-complete' : '', item.isDragging ? 'pl8' : 'pl24']"
+                    @dblclick="handleEdit(item)"
                   >
                     {{ item.content }}
                   </span>
@@ -51,7 +52,11 @@
       </el-scrollbar>
     </div>
     <el-dialog v-dialogDrag :visible.sync="dialogVisible" :modal="false" width="400px">
-      <vue-editor v-model="dialogContent"></vue-editor>
+      <el-form ref="formRef" :model="formData" :rules="formRules" :inline="true">
+        <el-form-item prop="htmlContent">
+          <vue-editor v-model="formData.htmlContent"></vue-editor>
+        </el-form-item>
+      </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">关 闭</el-button>
         <el-button type="primary" @click="submitContent">保 存</el-button>
@@ -70,9 +75,12 @@ const { proxy } = getCurrentInstance()
 /** 完成/未完成展示 */
 const todoList = ref(proxy.$cache.local.getJSON('toDoList') || [])
 const showTodoList = ref([])
+// 所有ToDo(已完成/未完成)
 const allToDo = computed(() => todoList.value.length)
-const finishToDo = computed(() => todoList.value.filter(item => !item.isCompleted).length)
+// 已完成ToDo
+const finishToDo = computed(() => todoList.value.filter(item => item.isCompleted).length)
 const toDoFlag = ref(false)
+const setToDoFlag = val => (toDoFlag.value = val)
 watchEffect(() => {
   showTodoList.value = todoList.value.filter(item => item.isCompleted === toDoFlag.value)
 })
@@ -85,12 +93,26 @@ const onEnd = event => {
   event.data.isDragging = false
 }
 
+const formRules = ref({ htmlContent: [{ required: true, message: '请输入内容', trigger: 'change' }] })
 /** 弹出框逻辑 */
-const dialogContent = ref('')
+const dialogType = ref('add')
 const dialogVisible = ref(false)
-const openPanel = () => {
+const formData = ref({})
+const handleAdd = () => {
+  dialogType.value = 'add'
   dialogVisible.value = true
-  dialogContent.value = ''
+  formData.value = {
+    isCompleted: false,
+    htmlContent: '',
+    content: '',
+    isDragging: false,
+    id: generateUniqueString()
+  }
+}
+const handleEdit = row => {
+  dialogType.value = 'edit'
+  dialogVisible.value = true
+  formData.value = row
 }
 function generateUniqueString(length = 32) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -105,15 +127,22 @@ function stripHtmlTags(str) {
   return str.replace(/<[^>]*>/g, '')
 }
 const submitContent = () => {
-  todoList.value.push({
-    isCompleted: false,
-    htmlContent: dialogContent.value,
-    content: stripHtmlTags(dialogContent.value),
-    isDragging: false,
-    id: generateUniqueString()
+  proxy.$refs.formRef.validate(valid => {
+    if (!valid) return
+    if (dialogType.value === 'add') {
+      todoList.value.unshift({
+        ...formData.value,
+        content: stripHtmlTags(formData.value.htmlContent)
+      })
+      setToDoFlag(false)
+    } else if (dialogType.value === 'edit') {
+      const todoIndex = todoList.value.findIndex(item => item.id === formData.value.id)
+      todoList.value[todoIndex].htmlContent = formData.value.htmlContent
+      todoList.value[todoIndex].content = stripHtmlTags(formData.value.htmlContent)
+    }
+    proxy.$cache.local.setJSON('toDoList', todoList.value)
+    dialogVisible.value = false
   })
-  proxy.$cache.local.setJSON('toDoList', todoList.value)
-  dialogVisible.value = false
 }
 </script>
 
