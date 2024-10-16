@@ -36,6 +36,7 @@
                     v-model="item.isCompleted"
                     :disabled="item.isDragging"
                     :class="item.isDragging ? '' : 'pl24'"
+                    @change="handleCheck(item)"
                   />
                   <span
                     class="todo-title"
@@ -125,6 +126,11 @@ function generateUniqueString(length = 32) {
 }
 function stripHtmlTags(str) {
   return str.replace(/<[^>]*>/g, '')
+}
+const handleCheck = row => {
+  const todoIndex = todoList.value.findIndex(item => item.id === row.id)
+  todoList.value[todoIndex].isCompleted = row.isCompleted
+  proxy.$cache.local.setJSON('toDoList', todoList.value)
 }
 const submitContent = () => {
   proxy.$refs.formRef.validate(valid => {
