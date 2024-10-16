@@ -12,7 +12,7 @@
           </div>
           <div class="idea-con">
             <span class="idea-todo" @click="setToDoFlag(false)">
-              <span class="idea-num">{{ allToDo }}</span>
+              <span class="idea-num">{{ ideaToDo }}</span>
               个想法
             </span>
             <span class="idea-finish" @click="setToDoFlag(true)">
@@ -75,8 +75,8 @@ const { proxy } = getCurrentInstance()
 /** 完成/未完成展示 */
 const todoList = ref(proxy.$cache.local.getJSON('toDoList') || [])
 const showTodoList = ref([])
-// 所有ToDo(已完成/未完成)
-const allToDo = computed(() => todoList.value.length)
+// 未完成ToDo
+const ideaToDo = computed(() => todoList.value.filter(item => !item.isCompleted).length)
 // 已完成ToDo
 const finishToDo = computed(() => todoList.value.filter(item => item.isCompleted).length)
 const toDoFlag = ref(false)
