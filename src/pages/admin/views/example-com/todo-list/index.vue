@@ -4,7 +4,7 @@
       <el-scrollbar class="todo-wrapper">
         <div class="note-con">
           <div class="note-header">
-            <div class="note-title">标签</div>
+            <div class="note-title">便签</div>
             <div class="note-btn" @click="handleAdd">
               <svg-icon icon-class="add1" class="icon-add" />
               <span>创建</span>
@@ -111,6 +111,7 @@ const handleAdd = () => {
   }
 }
 const handleEdit = row => {
+  console.log(row)
   dialogType.value = 'edit'
   dialogVisible.value = true
   formData.value = row
@@ -201,7 +202,7 @@ const submitContent = () => {
   }
   .idea-con {
     padding: 0 24px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 20px;
   }
